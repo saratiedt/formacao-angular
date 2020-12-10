@@ -1,31 +1,35 @@
-class NegociacaoController {
+import { NegociacoesView, MensagemView } from '../views/index';
+import { Negociacoes, Negociacao } from '../models/index';
 
-  private _inputData: JQuery;
-  private _inputQuantidade: JQuery;
-  private _inputValor: JQuery;
-  private _negociacoes = new Negociacoes();
-  private _negociacoesView = new NegociacoesView('#negociacoesView');
-  private _mensagemView = new MensagemView('#mensagemView');
+export class NegociacaoController {
 
-  constructor() {
-      this._inputData = $('#data');
-      this._inputQuantidade = $('#quantidade');
-      this._inputValor = $('#valor');
-      this._negociacoesView.update(this._negociacoes);
-  }
+    private _inputData: JQuery;
+    private _inputQuantidade: JQuery;
+    private _inputValor: JQuery;
+    private _negociacoes = new Negociacoes();
+    private _negociacoesView = new NegociacoesView('#negociacoesView');
+    private _mensagemView = new MensagemView('#mensagemView');
 
-  adiciona(event: Event) {
+    constructor() {
+        this._inputData = $('#data');
+        this._inputQuantidade = $('#quantidade');
+        this._inputValor = $('#valor');
+        this._negociacoesView.update(this._negociacoes);
+    }
 
-      event.preventDefault();
+    adiciona(event: Event) {
 
-      const negociacao = new Negociacao(
-          new Date(this._inputData.val().replace(/-/g, ',')), 
-          parseInt(this._inputQuantidade.val()),
-          parseFloat(this._inputValor.cal())
-      );
+        event.preventDefault();
 
-      this._negociacoes.adiciona(negociacao);
-      this._negociacoesView.update(this._negociacoes);
-      this._mensagemView.update('Negociação adicionada com sucesso');
-  }
+        const negociacao = new Negociacao(
+            new Date(this._inputData.val().replace(/-/g, ',')), 
+            parseInt(this._inputQuantidade.val()),
+            parseFloat(this._inputValor.val())
+        );
+
+        this._negociacoes.adiciona(negociacao);
+
+        this._negociacoesView.update(this._negociacoes);
+        this._mensagemView.update('Negociação adicionada com sucesso!');
+    }
 }
