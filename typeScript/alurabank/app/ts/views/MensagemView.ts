@@ -8,3 +8,4 @@ export class MensagemView extends View<string> {
     }
 
 }
+
