@@ -47,7 +47,17 @@ export class NegociacaoController {
       data.getDay() != DiaDaSemana.Domingo
     );
   }
+
+  // app/ts/controllers/NegociacaoController.ts
+
+  importarDados() {
+
+    alert('oi');
+
 }
+}
+
+
 
 enum DiaDaSemana {
   Domingo,
