@@ -1,6 +1,7 @@
 import { NegociacoesView, MensagemView } from "../views/index";
-import { Negociacao, Negociacoes } from "../models/index";
-import { domInject } from "../helpers/decorators/index";
+import { Negociacao, NegociacaoParcial, Negociacoes } from "../models/index";
+import { domInject, throttle } from "../helpers/decorators/index";
+import { NegociacaoService, ResponseHandler } from "../service/index";
 
 export class NegociacaoController {
   @domInject("#data")
@@ -13,13 +14,13 @@ export class NegociacaoController {
   private _negociacoesView = new NegociacoesView("#negociacoesView");
   private _mensagemView = new MensagemView("#mensagemView");
 
+  private _service = new NegociacaoService();
+
   constructor() {
     this._negociacoesView.update(this._negociacoes);
   }
-
+  @throttle(500)
   adiciona(event: Event) {
-    event.preventDefault();
-
     let data = new Date(this._inputData.val().replace(/-/g, ","));
 
     if (!this._ehDiaUtil(data)) {
@@ -49,28 +50,20 @@ export class NegociacaoController {
   }
 
   // app/ts/controllers/NegociacaoController.ts
+  @throttle(500)
+  importaDados() {
 
-  importarDados() {
-    function isOk(res: Response) {
-      if (res.ok) {
-        return res;
-      } else {
-        throw new Error(res.statusText);
-      }
-    }
-    fetch('http://localhost:8080/dados')
-      .then((res) => isOk(res))
-      .then((res) => res.json())
-      .then((dados: any[]) => {
-        dados
-          .map((dado) => new Negociacao(new Date(), dado.vezes, dado.montante))
-          .forEach((negociacao) => {
-            this._negociacoes.adiciona(negociacao);
-          });
-        this._negociacoesView.update(this._negociacoes);
-      })
-      .catch((err) => console.log(err));
-  }
+    this._service
+        .obterNegociacoes(res => {
+            if(res.ok) return res;
+            throw new Error(res.statusText);
+        })
+        .then(negociacoes => {
+            negociacoes.forEach(negociacao => 
+                this._negociacoes.adiciona(negociacao));
+            this._negociacoesView.update(this._negociacoes);
+        });
+
 }
 
 enum DiaDaSemana {
