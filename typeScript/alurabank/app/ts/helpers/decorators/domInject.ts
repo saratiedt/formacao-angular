@@ -3,7 +3,6 @@ export function domInject(seletor:string) {
         let elemento: JQuery;
 
         const getter = function() {
-            console.log(`buscando ${seletor} para injetar em ${key}`)
             if(!elemento) {
                 elemento = $(seletor);
             }
