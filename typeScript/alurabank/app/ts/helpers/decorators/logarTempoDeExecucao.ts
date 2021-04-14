@@ -12,12 +12,6 @@ export function logarTempoDeExecucao(emSegundos: boolean = false) {
         unidade = "s";
         divisor = 1000;
       }
-      console.log("----------------------");
-      console.log(
-        `parÂmetros passados para o método ${propertyKey}: ${JSON.stringify(
-          args
-        )}`
-      );
       const t1 = performance.now();
       const retorno = metodoOriginal.apply(this, args);
       const t2 = performance.now();
