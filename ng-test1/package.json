@@ -7,7 +7,7 @@
     "build": "ng build",
     "test": "ng test",
     "test-safari": "ng test --browsers Safari",
-    "test-ci": "ng test --browsers ChromeHeadless",
+    "test-ci": "ng test --watch=false --reporters junit --browsers ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -43,6 +43,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "karma-junit-reporter": "^2.0.1",
     "karma-safari-launcher": "^1.0.0",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
